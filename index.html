@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enquête à Huy – Guide audio</title>
+<style>
+:root{--bg:#eaf1f4;--ink:#10262f;--mut:#4a6068;--ac:#0b5d8a;--on:#fff;--card:#fff;--line:#c5d5dc;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#0c181d;--ink:#e8f0f2;--mut:#9fb3ba;--ac:#5cb8e6;--on:#06222f;--card:#16262d;--line:#2a3f48}}
+*{box-sizing:inherit}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;min-height:100%}
+main{max-width:34rem;margin:0 auto;padding:1.25rem 1.25rem 3rem}
+.top{color:var(--mut);font-size:.95rem;margin:0 0 .25rem}
+h1{font-size:2.6rem;line-height:1.1;margin:0 0 1.5rem;font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.3rem;margin:2rem 0 .75rem}
+#play{display:flex;align-items:center;justify-content:center;gap:.75rem;width:100%;min-height:5.5rem;
+border:0;border-radius:2.75rem;background:var(--ac);color:var(--on);font:inherit;font-size:1.5rem;font-weight:700;cursor:pointer;position:relative}
+#play:focus-visible,.rate button:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+#play svg{width:2rem;height:2rem;fill:currentColor}
+#play.on::after{content:"";position:absolute;inset:0;border-radius:inherit;border:3px solid var(--ac);animation:ring 1.6s ease-out infinite}
+@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(1.12,1.35);opacity:0}}
+@media (prefers-reduced-motion:reduce){#play.on::after{animation:none;opacity:.5}}
+.rate{display:flex;gap:.5rem;margin:1rem 0 0}
+.rate button{flex:1;min-height:3rem;border:2px solid var(--line);border-radius:.75rem;background:var(--card);color:var(--ink);font:inherit;font-size:1rem;cursor:pointer}
+.rate button[aria-pressed="true"]{border-color:var(--ac);font-weight:700}
+.txt{margin:1.75rem 0 0;padding:1.25rem;background:var(--card);border-left:6px solid var(--ac);border-radius:.25rem .75rem .75rem .25rem;font-size:1.3rem;line-height:1.55}
+.note{color:var(--mut);font-size:.95rem;margin-top:1rem}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.list a{display:block;padding:.9rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:.75rem;color:var(--ink);text-decoration:none;font-size:1.1rem}
+.warn{background:var(--card);border:2px solid var(--ac);padding:.75rem 1rem;border-radius:.75rem;margin:1rem 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:1rem}
+.q{background:#fff;color:#000;border:1px solid var(--line);border-radius:.5rem;padding:.75rem;text-align:center;break-inside:avoid}
+.q div.c{display:flex;justify-content:center;margin-bottom:.4rem}
+.q b{font-size:1.15rem}
+.btn{display:inline-block;margin:.5rem 0;padding:.7rem 1.1rem;border:0;border-radius:.6rem;background:var(--ac);color:var(--on);font:inherit;font-weight:700;cursor:pointer}
+@media print{.noprint{display:none!important}html,body{background:#fff;color:#000}main{max-width:none;padding:0}.grid{grid-template-columns:repeat(3,1fr)}.q{border:1px solid #999}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const S=[
+{t:"Départ",x:"Quittez le campus et rejoignez la grande route au nord, puis suivez-la vers l'est sur 200 mètres. Au carrefour, laissez la large avenue sur votre gauche et prenez la rue de droite. Après 100 mètres, tournez à droite. Lisez les plaques de rue : vous cherchez l'étape 1."},
+{t:"Étape 1",x:"Continuez tout droit jusqu'à apercevoir l'eau, environ 150 mètres. Tournez à droite et longez la rivière sur 120 mètres. Au carrefour, tournez à gauche et descendez la rue sur 80 mètres. Au bout, tournez à droite : des rails partent vers l'eau. C'est l'étape 2."},
+{t:"Étape 2",x:"Suivez le sentier piéton qui prolonge les rails et traversez la rivière, environ 150 mètres. Observez l'eau et les deux rives. De l'autre côté, tournez à gauche et suivez la route sur le trottoir, 150 mètres, jusqu'à un monument sur votre droite. Prenez alors le chemin en lacets qui monte vers la grande construction en pierre."},
+{t:"Étape 3",x:"Faites le tour de la terrasse et observez la ville. Quittez ensuite la construction par la sortie qui descend dans le bois, côté sud. Suivez le sentier sur 250 mètres, prudemment. Au pied de la colline, tournez à gauche dans la rue et remontez-la."},
+{t:"Étape 4",x:"Poursuivez dans cette rue jusqu'à son extrémité, en observant les commerces. Au bout, tournez à droite. Après 30 mètres, cherchez un petit pont au-dessus d'un cours d'eau : c'est l'étape 5."},
+{t:"Étape 5",x:"Rejoignez la grande avenue à quelques pas, tournez à droite et marchez 30 mètres. Tournez ensuite à gauche pour entrer dans un vaste espace piéton avec une fontaine. Observez tout ce qui l'entoure : c'est l'étape 6."},
+{t:"Étape 6",x:"Traversez cet espace vers l'est, sur 60 mètres. Remontez ensuite vers le nord sur 20 mètres, jusqu'à un espace planté d'arbres. Observez ce qu'on y fait : c'est l'étape 7."},
+{t:"Étape 7",x:"Quittez cet espace par la rue qui part vers l'ouest et avancez 35 mètres. Tournez à droite et remontez la rue vers le nord sur 60 mètres. Lisez son nom et observez ce qui a changé : vous cherchez l'étape 8."},
+{t:"Étape 8",x:"Continuez vers le nord jusqu'au bout de la rue, tournez à gauche et avancez 70 mètres. Prenez la ruelle étroite à gauche, qui descend vers la grande route. En bas, tournez à droite, suivez la route jusqu'au grand pont et traversez-le, 300 mètres. De l'autre côté, continuez tout droit : vous cherchez l'étape 9."},
+{t:"Étape 9",x:"Continuez tout droit jusqu'au bout de cette rue. Tournez à gauche dans la large avenue et descendez-la sur 250 mètres. Observez les aménagements et la façon dont l'espace est occupé : c'est l'étape 10."},
+{t:"Étape 10",x:"Descendez l'avenue jusqu'en bas, puis poursuivez à droite sur la route du départ, en sens inverse. Marchez environ 200 mètres jusqu'au campus. Bravo, l'enquête est terminée !"}
+];
+const app=document.getElementById("app");
+const base=location.href.split(/[?#]/)[0];
+const P=new URLSearchParams(location.search);
+let n=parseInt(P.get("etape"),10);
+if(isNaN(n)&&/^#\d+$/.test(location.hash))n=parseInt(location.hash.slice(1),10);
+
+function el(tag,props,html){const e=document.createElement(tag);Object.assign(e,props||{});if(html)e.innerHTML=html;return e}
+
+/* ---- Voix ---- */
+const hasTTS="speechSynthesis" in window;
+let voice=null,rate=1;
+function pick(){const v=speechSynthesis.getVoices();
+voice=v.find(x=>/^fr[-_]BE/i.test(x.lang))||v.find(x=>/^fr[-_]FR/i.test(x.lang))||v.find(x=>/^fr/i.test(x.lang))||null}
+if(hasTTS){pick();speechSynthesis.onvoiceschanged=pick}
+
+/* ---- Page d'une étape ---- */
+function step(i){
+const s=S[i];document.title=s.t+" – Enquête à Huy";
+app.append(el("p",{className:"top"},"Enquête à Huy"),el("h1",{textContent:s.t}));
+const play=el("button",{id:"play",type:"button"});
+const icoPlay='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
+const icoStop='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>';
+const setOn=on=>{play.classList.toggle("on",on);play.innerHTML=on?icoStop+"Arrêter":icoPlay+"Écouter la consigne"};
+setOn(false);
+function say(){
+if(!hasTTS)return;
+if(speechSynthesis.speaking){speechSynthesis.cancel();setOn(false);return}
+const u=new SpeechSynthesisUtterance(s.x);u.lang="fr-FR";if(voice)u.voice=voice;u.rate=rate;
+u.onend=u.onerror=()=>setOn(false);speechSynthesis.speak(u);setOn(true)}
+play.onclick=say;
+app.append(play);
+if(!hasTTS){app.append(el("p",{className:"note"},"La lecture vocale n'est pas disponible sur cet appareil. Lisez le texte ci-dessous."))}
+else{
+const r=el("div",{className:"rate",role:"group"});r.setAttribute("aria-label","Vitesse de lecture");
+[["Normal",1],["Lent",0.8]].forEach(([l,v])=>{const b=el("button",{type:"button",textContent:l});b.setAttribute("aria-pressed",v===rate);
+b.onclick=()=>{rate=v;[...r.children].forEach(c=>c.setAttribute("aria-pressed",c===b));if(speechSynthesis.speaking){speechSynthesis.cancel();setOn(false)}};r.append(b)});
+app.append(r)}
+app.append(el("p",{className:"txt",textContent:s.x}));
+app.append(el("p",{className:"note"},"Ouvrez ensuite la page de votre dossier qui correspond à l'étape que vous venez de trouver."));
+}
+
+/* ---- Accueil enseignant ---- */
+function home(){
+document.title="Guide audio – Enquête à Huy";
+app.append(el("p",{className:"top"},"Haute École Charlemagne"),el("h1",{textContent:"Enquête à Huy"}));
+app.append(el("p",{},"Chaque QR code ouvre cette page sur une étape. La consigne s'affiche et se lit à voix haute."));
+const ul=el("ul",{className:"list"});
+S.forEach((s,i)=>{const li=el("li");li.append(el("a",{href:base+"?etape="+i,textContent:s.t}));ul.append(li)});
+app.append(el("h2",{textContent:"Tester les étapes"}),ul);
+app.append(el("h2",{textContent:"Imprimer les QR codes"}),el("a",{className:"btn",href:base+"?qr",textContent:"Ouvrir la planche de QR codes"}));
+}
+
+/* ---- Planche de QR codes ---- */
+function qr(){
+document.title="QR codes – Enquête à Huy";
+const bar=el("div",{className:"noprint"});
+bar.append(el("h1",{textContent:"QR codes"}));
+if(location.protocol==="file:")bar.append(el("p",{className:"warn"},"Cette page est ouverte depuis un fichier local : les QR codes ne fonctionneront pas pour les élèves. Mettez d'abord la page en ligne, puis rouvrez-la depuis son adresse définitive et imprimez."));
+bar.append(el("p",{className:"note"},"Adresse encodée : "+base));
+const b=el("button",{className:"btn",type:"button",textContent:"Imprimer"});b.onclick=()=>print();bar.append(b);
+app.append(bar);
+if(typeof QRCode==="undefined"){app.append(el("p",{className:"warn"},"Le générateur de QR codes n'a pas pu se charger. Vérifiez la connexion internet et rechargez la page."));return}
+const g=el("div",{className:"grid"});
+S.forEach((s,i)=>{const c=el("div",{className:"q"});const box=el("div",{className:"c"});
+new QRCode(box,{text:base+"?etape="+i,width:170,height:170,correctLevel:QRCode.CorrectLevel.M});
+c.append(box,el("b",{textContent:s.t}));g.append(c)});
+app.append(g);
+}
+
+if(P.has("qr"))qr();
+else if(n>=0&&n<S.length)step(n);
+else home();
+</script>
+</body>
+</html>
